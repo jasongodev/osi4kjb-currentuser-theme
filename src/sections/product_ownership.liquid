@@ -1,0 +1,56 @@
+{%- comment -%}
+// SPDX-License-Identifier: GPL-3.0-only
+/*
+    Current User Information Helper Theme
+    osi4kjb-currentuser-theme 0.0.1
+    Copyright (C) 2022 Jason Go
+    
+    This file is part of osi4kjb-currentuser-theme.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3 of the License only.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+{%- endcomment -%}
+
+
+{%- assign validate_product_ownership = section.settings.validate_product_ownership -%}
+{%- include 'utils' func: 'clean_split' arg1: section.settings.exclude_products arg2: ',' arg3: 'nospace' -%}
+{%- assign exclude_products = ret1 -%}
+
+<p>Product Ownership Section</p>
+
+{% schema %}
+{
+  "name": "Product Ownership",
+  "elements": [
+    {
+      "type": "checkbox",
+      "id": "validate_product_ownership",
+      "label": "Validate the current user's ownership of products.",
+      "default": "true",
+      "info": "Default is CHECKED"
+    },
+    {
+      "type": "header",
+      "content": "Exclude These Products",
+      "info": "When this helper theme loads, Kajabi outputs all the products and it's information. You may exclude some products using this option. This does not restrict user access or product visibility in their library. It only excludes the information about products available in your website."
+    },
+    {
+      "type": "textarea",
+      "id": "exclude_products",
+      "label": "Exclude these product IDs. Enter one ID per line. See the preview panel on how to determine the product ID of your products.",
+      "default": ""
+    }
+  ]
+}
+
+{% endschema %}

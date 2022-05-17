@@ -1,0 +1,72 @@
+{%- comment -%}
+// SPDX-License-Identifier: GPL-3.0-only
+/*
+    Current User Information Helper Theme
+    osi4kjb-currentuser-theme 0.0.1
+    Copyright (C) 2022 Jason Go
+    
+    This file is part of osi4kjb-currentuser-theme.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3 of the License only.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+{%- endcomment -%}
+
+
+{%- assign validate_offer_ownership = section.settings.validate_offer_ownership -%}
+
+{% for block in section.blocks -%}
+    {%- assign offers = offers | append: block.settings.offer -%}
+    {%- if forloop.last == false -%}{%- assign offers = offers | append: ',' -%}{%- endif -%}
+{%- endfor -%}
+
+{%- assign offers = offers | split: ',' | uniq | compact -%}
+
+<p>Offer Ownership Section</p>
+
+{% schema %}
+{
+  "name": "Offer Ownership",
+  "elements": [
+    {
+      "type": "checkbox",
+      "id": "validate_offer_ownership",
+      "label": "Validate the current user's ownership of the following offers.",
+      "default": "true",
+      "info": "Default is CHECKED"
+    },
+    {
+      "type": "header",
+      "content": "Include These Offers",
+      "info": "Unlike products, there's no way to list all offers automatically. You need to specify the offers you want to include in the output data."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "offer",
+      "name": "Offer",
+      "elements": [
+        {
+          "type": "header",
+          "content": "Offer"
+        },
+        {
+          "type": "offer",
+          "id": "offer",
+          "label": "Offer"
+        }
+      ]
+    }
+  ]
+}
+
+{% endschema %}

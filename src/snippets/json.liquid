@@ -1,0 +1,78 @@
+{%- comment -%}
+// SPDX-License-Identifier: GPL-3.0-only
+/*
+    Current User Information Helper Theme
+    osi4kjb-currentuser-theme 0.0.1
+    Copyright (C) 2022 Jason Go
+    
+    This file is part of osi4kjb-currentuser-theme.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3 of the License only.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+{%- endcomment -%}
+
+
+{
+    "isLogged": {% if current_site_user -%}true{%- else -%}false{%- endif -%},
+    "email": {% if include_email -%}"{{ current_site_user.email }}"{%- else -%}null{%- endif -%},
+    "name": {% if include_name -%}"{{ current_site_user.name }}"{%- else -%}null{%- endif -%},
+    "avatar": {% if include_avatar -%}"{{ current_site_user | avatar_url }}"{%- else -%}null{%- endif -%},
+    "userId": {% if include_user_id and current_site_user.id != 0 -%}"{{ current_site_user.id }}"{%- else -%}null{%- endif -%},
+    "contactId": {% if include_contact_id and current_site_user.contact_id != 0 -%}"{{ current_site_user.contact_id }}"{%- else -%}null{%- endif -%},
+    "bio": {% if include_bio -%}
+    {%- include 'utils' func: 'json_safe_string' arg1: current_site_user.bio -%}
+    "{{ ret1 }}"{%- else -%}null{%- endif -%},
+    "location": {% if include_location -%}"{{ current_site_user.location }}"{%- else -%}null{%- endif -%},
+    "facebook": {% if include_facebook -%}"{{ facebook_link }}"{%- else -%}null{%- endif -%},
+    "instagram": {% if include_instagram -%}"{{ instagram_link }}"{%- else -%}null{%- endif -%},
+    "twitter": {% if include_twitter -%}"{{ twitter_link }}"{%- else -%}null{%- endif %},
+    "offers": [
+        {% if validate_offer_ownership == true -%}
+        {%- for offerId in offers -%}
+        {%- assign offer = current_site.find_offer[offerId] -%}
+        {
+            "id": "{{ offerId }}",
+            "title": {% include 'utils' func: 'json_safe_string' arg1: offer.title -%}"{{ ret1 }}",
+            "description": {% include 'utils' func: 'json_safe_string' arg1: offer.description -%}"{{ ret1 }}",
+            "url": "{{ utils_origin }}{{ offer.checkout_url }}",
+            "price": "{{ offer | display_price }}",
+            "imageUrl": "{{ offer.image_url }}",
+            "isOwned": {%- if offer.currently_owned == 'true' -%}true{%- else -%}false{%- endif %}
+        }
+        {%- if forloop.last == false -%},{%- endif -%}
+        {%- endfor -%}
+        {%- endif %}
+    ],
+    "products": [
+        {% capture products_json -%}
+            {%- if validate_product_ownership == true -%}
+                {%- for product in current_site.products -%}
+                    {%- include 'utils' func: 'in_array' arg1: exclude_products arg2: product.id -%}
+                    {%- if ret1 == false -%}
+                        {%- assign prod = current_site.find_product[product.id] -%}
+        ,{
+            "id": "{{ product.id }}",
+            "title": {% include 'utils' func: 'json_safe_string' arg1: product.title -%}"{{ ret1 }}",
+            "description": {% include 'utils' func: 'json_safe_string' arg1: product.description -%}"{{ ret1 }}",
+            "url": "{{ utils_origin }}{{ product.url }}",
+            "isOwned": {%- if prod.currently_owned == 'true' -%}true{%- else -%}false{%- endif %}
+        }
+                    {%- endif %}
+                {%- endfor -%}
+            {%- endif %}
+        {%- endcapture -%}
+        
+        {%- assign products_json =  products_json | slice: 1, products_json.size -%}
+        {{ products_json }}
+    ]
+}

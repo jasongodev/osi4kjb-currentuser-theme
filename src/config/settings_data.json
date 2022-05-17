@@ -1,0 +1,27 @@
+{
+  "current": {
+    "sections": {
+      "current_user": {
+        "name": "Current User Information",
+        "type": "current_user",
+        "hidden": "false",
+        "settings": {
+        }
+      },
+      "offer_ownership": {
+        "name": "Offer Ownership",
+        "type": "offer_ownership",
+        "hidden": "false",
+        "settings": {
+        }
+      },
+      "product_ownership": {
+        "name": "Product Ownership",
+        "type": "product_ownership",
+        "hidden": "false",
+        "settings": {
+        }
+      }
+    }
+  }
+}

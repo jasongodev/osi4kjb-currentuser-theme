@@ -1,0 +1,123 @@
+{%- comment -%}
+// SPDX-License-Identifier: GPL-3.0-only
+/*
+    Current User Information Helper Theme
+    osi4kjb-currentuser-theme 0.0.1
+    Copyright (C) 2022 Jason Go
+    
+    This file is part of osi4kjb-currentuser-theme.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3 of the License only.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+{%- endcomment -%}
+
+
+{%- assign include_email = section.settings.include_email -%}
+{%- assign include_name = section.settings.include_name -%}
+{%- assign include_avatar = section.settings.include_avatar -%}
+{%- assign include_user_id = section.settings.include_user_id -%}
+{%- assign include_contact_id = section.settings.include_contact_id -%}
+{%- assign include_bio = section.settings.include_bio -%}
+{%- assign include_location = section.settings.include_location -%}
+{%- assign include_facebook = section.settings.include_facebook -%}
+{%- assign include_instagram = section.settings.include_instagram -%}
+{%- assign include_twitter = section.settings.include_twitter -%}
+
+<p>Current User Section</p>
+
+{% schema %}
+{
+  "name": "Current User Information",
+  "elements": [
+    {
+      "type": "header",
+      "content": "Always available"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_email",
+      "label": "Email",
+      "default": "true",
+      "info": "Default is CHECKED"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_name",
+      "label": "Name",
+      "default": "true",
+      "info": "Default is CHECKED"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_avatar",
+      "label": "Avatar",
+      "default": "true",
+      "info": "Default is CHECKED"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_user_id",
+      "label": "User ID",
+      "default": "true",
+      "info": "Default is CHECKED"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_contact_id",
+      "label": "Contact ID",
+      "default": "true",
+      "info": "Default is CHECKED"
+    },
+    {
+      "type": "header",
+      "content": "Only available if user consents for these to be public"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_bio",
+      "label": "Biography",
+      "default": "true",
+      "info": "Default is CHECKED"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_location",
+      "label": "Location",
+      "default": "true",
+      "info": "Default is CHECKED"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_facebook",
+      "label": "Facebook profile",
+      "default": "true",
+      "info": "Default is CHECKED"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_instagram",
+      "label": "Instagram profile",
+      "default": "true",
+      "info": "Default is CHECKED"
+    },
+    {
+      "type": "checkbox",
+      "id": "include_twitter",
+      "label": "Twitter profile",
+      "default": "true",
+      "info": "Default is CHECKED"
+    }
+  ]
+}
+
+{% endschema %}

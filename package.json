@@ -1,0 +1,11 @@
+{
+  "name": "osi4kjb-currentuser-theme",
+  "version": "0.0.1",
+  "description": "A Kajabi helper theme that allows you to get the current user information to be used for client-side scripting. It only sends information of the logged in user within the current browser session.",
+  "scripts": {
+    "build": "rm $npm_package_name.zip; rm -rf $npm_package_name; cp -r src $npm_package_name; zip -r $npm_package_name.zip $npm_package_name; rm -rf $npm_package_name"
+  },
+  "keywords": [],
+  "author": "Jason Go",
+  "license": "GPL-3.0-only"
+}

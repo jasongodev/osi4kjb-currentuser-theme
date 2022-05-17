@@ -1,0 +1,28 @@
+{%- comment -%}
+// SPDX-License-Identifier: GPL-3.0-only
+/*
+    Current User Information Helper Theme
+    osi4kjb-currentuser-theme 0.0.1
+    Copyright (C) 2022 Jason Go
+    
+    This file is part of osi4kjb-currentuser-theme.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3 of the License only.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+{%- endcomment -%}
+
+// THIS DOES NOT WORK DUE TO X-CONTENT-TYPE-OPTIONS: nosniff
+// RESERVED JUST IN CASE SOMETHING CHANGED IN THE FUTURE.
+(function(){
+    window.currentUser = window.currentUser || {% include 'json' -%}
+})()

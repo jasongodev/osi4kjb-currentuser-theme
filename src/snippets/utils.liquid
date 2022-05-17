@@ -1,0 +1,70 @@
+{%- comment -%}
+// SPDX-License-Identifier: LGPL-3.0-only
+/*
+    osi4kjb-utils
+    https://github.com/jasongodev/osi4kjb-utils
+    Copyright (C) 2022 Jason Go
+    
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation, version 3 of the License only.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with this program. If not, see <https://www.gnu.org/licenses/>.
+*/
+{%- endcomment -%}
+
+
+{%- case func -%}
+
+
+{%- when 'array_pop' -%}
+{%- assign utils_newlen = arg1.size | minus: 1 -%}
+{%- assign ret1 = arg1 | slice: 0, utils_newlen -%}
+
+
+{%- when 'in_array' -%}
+{%- assign ret1 = false -%}
+{%- assign utils_str2 = arg2 | append: '' -%}
+{%- for utils_str1 in arg1 -%}
+    {%- if utils_str1 == utils_str2 -%}
+        {%- assign ret1 = true -%}
+        {%- break -%}
+    {%- endif -%}
+{%- endfor -%}
+
+
+{%- when 'clean_split' -%}
+    {%- assign ret1 = arg1 | prepend: 'paddingfortrailingblanks,'  | append: ',paddingfortrailingblanks' -%}
+    {%- if arg3 == 'nospace' -%}
+        {%- assign ret1 = ret1 | replace: ' ', '' -%}
+    {%- endif -%}
+    {%- assign ret1 = ret1 | replace: utils_chr_newline, ',' | replace: utils_chr_return, ',' | split: ',' | compact | uniq | join: ',' | replace: ',,', ',' | split: ',' -%}
+    {%- assign utils_newlen = ret1.size | minus: 1 -%}
+    {%- assign ret1 = ret1 | slice: 1, utils_newlen -%}
+
+
+{%- when 'json_safe_string' -%}
+    {%- assign ret1 = arg1 | replace: '"', '\"' | replace: utils_chr_tab, '\t' | replace: utils_chr_return, '\r' | replace: utils_chr_newline, '\n' -%}
+
+
+{%- else -%}
+{%- assign utils_chr_tab = '%09' | url_decode -%}
+{%- assign utils_chr_return = '%0D' | url_decode -%}
+{%- assign utils_chr_newline = '%0A' | url_decode -%}
+
+{%- assign utils_url_fragments = canonical_url | split: '/' -%}
+{%- include 'utils' func: 'array_pop' arg1: utils_url_fragments -%}
+{%- assign utils_host = ret1 | slice: 2, ret1.size | join: '/' -%}
+{%- assign utils_hostname = utils_host -%}
+{%- assign utils_href = canonical_url -%}
+{%- assign utils_origin = utils_url_fragments | slice: 0, 3 | join: '/' -%}
+{%- assign utils_pathname = utils_url_fragments | slice: 3, utils_url_fragments.size | join: '/' | prepend: '/' -%}
+{%- assign utils_protocol = utils_url_fragments | slice: 0 -%}
+
+{%- endcase -%}
